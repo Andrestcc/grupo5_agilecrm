@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso: Agile CRM - Implementación y Gestión</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9', // Sky Blue
+                            600: '#0284c7',
+                            900: '#0c4a6e',
+                        },
+                        slate: {
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Estilos personalizados mínimos */
+        body {
+            background-color: #f8fafc;
+            color: #334155;
+        }
+        .prose-custom h3 {
+            color: #1e293b;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .prose-custom p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+        .prose-custom ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .section-card {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid #0ea5e9;
+        }
+        .role-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background-color: #e0f2fe;
+            color: #0369a1;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="fixed top-0 left-0 w-full h-1 z-50 bg-slate-200">
+        <div id="progress-bar" class="h-full bg-brand-600 transition-all duration-150 ease-out w-0"></div>
+    </div>
+
+    <nav class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-brand-600 flex items-center justify-center text-white font-bold shadow-md">
+                        AG
+                    </div>
+                    <span class="font-bold text-xl tracking-tight text-slate-800">Agile CRM <span class="text-brand-600 text-sm font-medium">Edu</span></span>
+                </div>
+
+                <div class="hidden md:flex space-x-8 text-sm font-medium text-slate-600">
+                    <a href="#inicio" class="hover:text-brand-600 transition-colors">Inicio</a>
+                    <a href="#marketing" class="hover:text-brand-600 transition-colors">Marketing</a>
+                    <a href="#ventas" class="hover:text-brand-600 transition-colors">Ventas</a>
+                    <a href="#soporte" class="hover:text-brand-600 transition-colors">Soporte</a>
+                    <a href="#analitica" class="hover:text-brand-600 transition-colors">Analítica</a>
+                </div>
+
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-slate-600 hover:text-brand-600 focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100 absolute w-full shadow-lg">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#inicio" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600">Configuración & 360°</a>
+                <a href="#marketing" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600">Captación & Campañas</a>
+                <a href="#ventas" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600">Ventas & Deals</a>
+                <a href="#productividad" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600">Agenda & Productividad</a>
+                <a href="#soporte" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600">Servicio al Cliente</a>
+                <a href="#analitica" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600">Analítica</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            
+            <main class="lg:col-span-3 space-y-8">
+
+                <div class="bg-gradient-to-r from-slate-900 to-slate-800 rounded-2xl p-8 text-white shadow-xl relative overflow-hidden">
+                    <div class="relative z-10">
+                        <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight mb-4">
+                            Domina <span class="text-brand-500">Agile CRM</span>
+                        </h1>
+                        <p class="text-lg text-slate-300 max-w-2xl mb-6">
+                            Una guía educativa integral para gestionar marketing, ventas y servicio al cliente en una sola plataforma unificada.
+                        </p>
+                        <div class="flex flex-wrap gap-4">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-brand-100 border border-white/20">Gestión de Relaciones</span>
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-brand-100 border border-white/20">Automatización</span>
+                        </div>
+                    </div>
+                    <svg class="absolute right-0 top-0 h-full w-1/3 text-white/5 transform translate-x-10" fill="currentColor" viewBox="0 0 100 100">
+                        <path d="M50 0 L100 100 L0 100 Z" />
+                    </svg>
+                </div>
+
+                <section id="inicio" class="section-card">
+                    <div class="flex justify-between items-start">
+                        <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-2">
+                            <svg class="w-6 h-6 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+                            1. Configuración y Vista 360°
+                        </h2>
+                    </div>
+                    <span class="role-badge mt-2">Rol: Administrador / Inicio</span>
+                    
+                    <div class="prose-custom mt-4">
+                        <h3>El Dashboard Principal</h3>
+                        <p>
+                            Al iniciar sesión, Agile CRM presenta un tablero de control personalizable. Este es el centro de mando donde widgets como "Tareas para hoy", "Calendario" y "Actividad reciente" ofrecen un resumen operativo inmediato.
+                        </p>
+                        
+                        <h3>La Ficha del Cliente (360 View)</h3>
+                        <p>
+                            El núcleo del sistema es la gestión de contactos. La vista de 360 grados centraliza toda la interacción con una persona:
+                        </p>
+                        <ul class="text-sm text-slate-600 bg-slate-50 p-4 rounded-lg border border-slate-100">
+                            <li><strong>Timeline:</strong> Historial cronológico de emails, llamadas y visitas web.</li>
+                            <li><strong>Integración Social:</strong> Widgets que muestran feeds de Twitter o LinkedIn del contacto.</li>
+                            <li><strong>Notas y Etiquetas:</strong> Permite segmentar usuarios (ej: "VIP", "Prospecto Frío").</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section id="marketing" class="section-card">
+                    <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-2">
+                        <svg class="w-6 h-6 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                        2. Captación Web (Web Rules)
+                    </h2>
+                    <span class="role-badge mt-2">Rol: Marketing Specialist</span>
+                    
+                    <div class="prose-custom mt-4">
+                        <p>
+                            Para alimentar el CRM, necesitamos datos externos. Agile CRM utiliza <strong>Web Rules</strong> y formularios inteligentes para convertir visitantes anónimos en "Leads".
+                        </p>
+                        <div class="grid md:grid-cols-2 gap-4 my-4">
+                            <div class="border rounded p-3 hover:shadow-md transition bg-white">
+                                <h4 class="font-bold text-slate-700">Pop-ups Inteligentes</h4>
+                                <p class="text-sm text-slate-500">Configuración de ventanas emergentes basadas en el comportamiento (ej: salir de la página).</p>
+                            </div>
+                            <div class="border rounded p-3 hover:shadow-md transition bg-white">
+                                <h4 class="font-bold text-slate-700">Landing Pages</h4>
+                                <p class="text-sm text-slate-500">Constructor visual de páginas de aterrizaje con formularios integrados que guardan data directamente en Contactos.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card">
+                    <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-2">
+                        <svg class="w-6 h-6 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                        3. Campañas y Automatización
+                    </h2>
+                    <span class="role-badge mt-2">Rol: Marketing Manager</span>
+                    
+                    <div class="prose-custom mt-4">
+                        <h3>El Diseñador Visual (Visual Designer)</h3>
+                        <p>
+                            La joya de la corona de Agile CRM es su automatización basada en nodos. Permite crear flujos de trabajo complejos con una interfaz de "arrastrar y soltar".
+                        </p>
+                        <div class="bg-slate-100 p-4 rounded-lg flex flex-col md:flex-row items-center justify-center gap-4 text-xs font-mono my-4 overflow-x-auto">
+                            <div class="bg-white border-2 border-green-500 p-2 rounded shadow text-center w-32">
+                                <span class="block font-bold">Trigger</span>
+                                Abre Email
+                            </div>
+                            <svg class="w-6 h-6 text-slate-400 rotate-90 md:rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                            <div class="bg-white border border-slate-300 p-2 rounded shadow text-center w-32">
+                                <span class="block font-bold">Espera</span>
+                                2 Días
+                            </div>
+                            <svg class="w-6 h-6 text-slate-400 rotate-90 md:rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                            <div class="bg-white border border-slate-300 p-2 rounded shadow text-center w-32">
+                                <span class="block font-bold">Acción</span>
+                                Enviar Cupón
+                            </div>
+                        </div>
+                        <p>
+                            Esto permite la "nutrición" de leads sin intervención humana constante, asegurando que el cliente reciba el mensaje correcto en el momento justo.
+                        </p>
+                    </div>
+                </section>
+
+                <section id="ventas" class="section-card">
+                    <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-2">
+                        <svg class="w-6 h-6 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        4. Ventas: El Pipeline
+                    </h2>
+                    <span class="role-badge mt-2">Rol: Ejecutivo de Ventas</span>
+                    
+                    <div class="prose-custom mt-4">
+                        <p>
+                            La gestión de oportunidades (Deals) se visualiza a través de un tablero Kanban. Cada tarjeta representa dinero potencial.
+                        </p>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full text-sm text-left text-slate-500 mt-2">
+                                <thead class="text-xs text-slate-700 uppercase bg-slate-100">
+                                    <tr>
+                                        <th class="px-6 py-3">Fase</th>
+                                        <th class="px-6 py-3">Acción</th>
+                                        <th class="px-6 py-3">Objetivo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="bg-white border-b">
+                                        <td class="px-6 py-4 font-medium text-slate-900">Nuevo / Prospecto</td>
+                                        <td class="px-6 py-4">Crear Deal</td>
+                                        <td class="px-6 py-4">Calificar interés</td>
+                                    </tr>
+                                    <tr class="bg-white border-b">
+                                        <td class="px-6 py-4 font-medium text-slate-900">En Negociación</td>
+                                        <td class="px-6 py-4">Arrastrar tarjeta</td>
+                                        <td class="px-6 py-4">Presentar propuesta</td>
+                                    </tr>
+                                    <tr class="bg-white">
+                                        <td class="px-6 py-4 font-medium text-green-600">Ganado</td>
+                                        <td class="px-6 py-4">Marcar cierre</td>
+                                        <td class="px-6 py-4">Facturar</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="productividad" class="section-card">
+                    <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-2">
+                        <svg class="w-6 h-6 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        5. Agenda y Productividad
+                    </h2>
+                    <span class="role-badge mt-2">Rol: Coordinador de Equipo</span>
+                    <div class="prose-custom mt-4">
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <span class="bg-indigo-100 text-indigo-800 p-1 rounded mr-3 mt-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                </span>
+                                <div>
+                                    <strong>Calendario Online:</strong> Similar a Calendly, permite enviar un enlace al cliente para que elija un hueco libre en la agenda del vendedor.
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="bg-indigo-100 text-indigo-800 p-1 rounded mr-3 mt-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                                </span>
+                                <div>
+                                    <strong>Telefonía VoIP:</strong> Realizar y grabar llamadas directamente desde el navegador, quedando el audio guardado en la ficha del cliente.
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section id="soporte" class="section-card">
+                    <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-2">
+                        <svg class="w-6 h-6 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                        6. Servicio al Cliente (Helpdesk)
+                    </h2>
+                    <span class="role-badge mt-2">Rol: Soporte Técnico</span>
+                    <div class="prose-custom mt-4">
+                        <p>La relación no termina con la venta. El módulo de Helpdesk organiza las consultas mediante <strong>Tickets</strong>.</p>
+                        <div class="bg-orange-50 border-l-4 border-orange-400 p-4 mb-4">
+                            <p class="text-sm text-orange-700">
+                                <strong>Tip de Eficiencia:</strong> Uso de "Canned Responses" (Respuestas Predefinidas) para solucionar dudas frecuentes con un solo clic.
+                            </p>
+                        </div>
+                        <p>Los tickets se clasifican por prioridad (Urgente, Alta, Normal) y estado (Abierto, Pendiente, Resuelto), permitiendo medir los tiempos de respuesta del equipo.</p>
+                    </div>
+                </section>
+
+                <section id="analitica" class="section-card">
+                    <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-2">
+                        <svg class="w-6 h-6 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                        7. Analítica y Gamificación
+                    </h2>
+                    <span class="role-badge mt-2">Rol: Gerente / Supervisor</span>
+                    <div class="prose-custom mt-4">
+                        <p>
+                            Para motivar al equipo, Agile CRM introduce mecánicas de juego. Los empleados ganan puntos e insignias al completar tareas o cerrar ventas.
+                        </p>
+                        <div class="flex items-center justify-between bg-slate-800 text-white p-4 rounded-lg shadow-inner">
+                            <div>
+                                <h4 class="font-bold text-yellow-400 text-lg">Leaderboard</h4>
+                                <p class="text-xs text-slate-300">Ventas del Mes</p>
+                            </div>
+                            <div class="flex -space-x-2">
+                                <div class="w-8 h-8 rounded-full bg-blue-500 border-2 border-slate-800 flex items-center justify-center text-xs font-bold">1</div>
+                                <div class="w-8 h-8 rounded-full bg-green-500 border-2 border-slate-800 flex items-center justify-center text-xs font-bold">2</div>
+                                <div class="w-8 h-8 rounded-full bg-purple-500 border-2 border-slate-800 flex items-center justify-center text-xs font-bold">3</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+
+            <aside class="hidden lg:block lg:col-span-1">
+                <div class="sticky top-24 space-y-6">
+                    
+                    <div class="bg-white rounded-lg shadow-sm p-5 border border-slate-100">
+                        <h3 class="font-bold text-slate-800 mb-3 text-sm uppercase tracking-wider">Contenido</h3>
+                        <nav class="space-y-2 text-sm">
+                            <a href="#inicio" class="block text-slate-600 hover:text-brand-600 hover:translate-x-1 transition-transform">1. Configuración & 360°</a>
+                            <a href="#marketing" class="block text-slate-600 hover:text-brand-600 hover:translate-x-1 transition-transform">2. Captación Web</a>
+                            <a href="#marketing" class="block text-slate-600 hover:text-brand-600 hover:translate-x-1 transition-transform">3. Automatización</a>
+                            <a href="#ventas" class="block text-slate-600 hover:text-brand-600 hover:translate-x-1 transition-transform">4. Pipeline de Ventas</a>
+                            <a href="#productividad" class="block text-slate-600 hover:text-brand-600 hover:translate-x-1 transition-transform">5. Agenda & Tareas</a>
+                            <a href="#soporte" class="block text-slate-600 hover:text-brand-600 hover:translate-x-1 transition-transform">6. Soporte Técnico</a>
+                            <a href="#analitica" class="block text-slate-600 hover:text-brand-600 hover:translate-x-1 transition-transform">7. Analítica</a>
+                        </nav>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-sm p-5 border border-slate-100">
+                        <h3 class="font-bold text-slate-800 mb-4 text-sm uppercase tracking-wider flex items-center gap-2">
+                            <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                            Integrantes
+                        </h3>
+                        <ul class="space-y-3 text-xs text-slate-600 font-medium">
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-brand-400"></span>Chavez Cruz Celio</li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-brand-400"></span>Chirito Gomez Lorenzo</li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-brand-400"></span>Espejo Blas Luis</li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-brand-400"></span>Papa Reyes, Carlos</li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-brand-400"></span>Parraga Cabrel Alexis</li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-brand-400"></span>Tahua Castillo Cristhian</li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span>(Espacio para 7° Integrante)</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-brand-500 to-brand-600 rounded-lg shadow-md p-5 text-center">
+                        <h3 class="font-bold text-white mb-2 text-sm">Recursos del Curso</h3>
+                        <p class="text-brand-100 text-xs mb-4">Descarga la guía rápida en PDF.</p>
+                        <button class="w-full bg-white text-brand-600 text-sm font-bold py-2 px-4 rounded hover:bg-brand-50 transition flex justify-center items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                            Descargar
+                        </button>
+                    </div>
+
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <footer class="bg-slate-900 text-slate-400 py-12 mt-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h4 class="text-white text-lg font-bold mb-4">Agile CRM Edu</h4>
+                    <p class="text-sm leading-relaxed">Proyecto educativo universitario diseñado para demostrar la implementación y gestión integral de sistemas CRM en entornos empresariales simulados.</p>
+                </div>
+                <div class="lg:hidden">
+                    <h4 class="text-white text-sm font-bold mb-4 uppercase">Integrantes</h4>
+                    <ul class="grid grid-cols-1 gap-2 text-xs">
+                        <li>Chavez Cruz Celio</li>
+                        <li>Chirito Gomez Lorenzo</li>
+                        <li>Espejo Blas Luis</li>
+                        <li>Papa Reyes, Carlos</li>
+                        <li>Parraga Cabrel Alexis</li>
+                        <li>Tahua Castillo Cristhian</li>
+                        <li class="text-slate-600">(7° Integrante Pendiente)</li>
+                    </ul>
+                </div>
+                <div class="text-right flex flex-col justify-end">
+                    <p class="text-xs">&copy; 2023 Curso Gestión Tecnológica.</p>
+                    <div class="flex justify-end gap-4 mt-2 text-xs">
+                        <a href="#" class="hover:text-white">Aviso Legal</a>
+                        <a href="#" class="hover:text-white">Privacidad</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 1. Barra de Progreso de Lectura
+        window.onscroll = function() { updateProgressBar() };
+
+        function updateProgressBar() {
+            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            var scrolled = (winScroll / height) * 100;
+            document.getElementById("progress-bar").style.width = scrolled + "%";
+        }
+
+        // 2. Menú Hamburguesa Móvil
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // Cerrar menú móvil al hacer click en un enlace
+        menu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
